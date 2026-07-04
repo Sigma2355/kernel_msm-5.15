@@ -3,11 +3,11 @@ if BLOCK
 
 menu "IO Schedulers"
 
-config MQ_IOSCHED_DEADLINE
-	tristate "MQ deadline I/O scheduler"
+config MQ_IOSCHED_TWESU
+	tristate "MQ TWESU I/O scheduler"
 	default y
 	help
-	  MQ version of the deadline IO scheduler.
+	  MQ version of the TWESU IO scheduler.
 
 config MQ_IOSCHED_KYBER
 	tristate "Kyber I/O scheduler"
@@ -61,13 +61,13 @@ config MQ_IOSCHED_SSG_CGROUP
 
 choice
 	prompt "Default mq I/O scheduler"
-	default MQ_DEADLINE_DEFAULT
+	default MQ_TWESU_DEFAULT
 	help
 	  Select the I/O scheduler which will be used by default.
 
-	config MQ_DEADLINE_DEFAULT
-		bool "MQ Deadline"
-		depends on MQ_IOSCHED_DEADLINE
+	config MQ_TWESU_DEFAULT
+		bool "MQ TWESU"
+		depends on MQ_IOSCHED_TWESU
 
 	config MQ_KYBER_DEFAULT
 		bool "MQ Kyber"

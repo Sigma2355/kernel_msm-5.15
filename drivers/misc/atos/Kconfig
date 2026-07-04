@@ -1,0 +1,86 @@
+# SPDX-License-Identifier: GPL-2.0
+# 
+# Copyright (C) 2021-2023 Dakkshesh dakkshesh5@gmail.com.
+# Dimodifikasi untuk ATOS Project
+config ATOS
+	tristate "ATOS (AuTomatic Operate System) Kernel Module"
+	default y
+	help
+	 Modul ini memungkinkan Anda mengatur aktivitas kernel berbasis profil.
+	 Modul ini membuat sysfs node yang bisa digunakan untuk mengubah profil
+	 dari userspace.
+	 Saat ini ATOS menyediakan 2 mode profil:
+	 0 : Mati (Sistem berjalan standar)
+	 1 : Hidup (Performa: Memaksa CPU governor ke 'sprea' dan IO scheduler ke 'twesu')
+	 Sangat aman untuk memilih Y di sini.
+
+
+if ATOS
+config ATOS_DEFAULT_MODE
+	int "Default mode number for atos_mode"
+	range 0 1
+	default 0
+	help
+	 ATOS akan mengaktifkan mode ini saat proses boot-up.
+	 0 = Mati
+	 1 = Hidup (Performa)
+
+
+config AUTO_ATOS
+	bool
+	help
+	Opsi ini otomatis terpilih jika salah satu opsi Auto ATOS diaktifkan.
+	choice
+	prompt "Auto ATOS support"
+	default AUTO_ATOS_NONE
+	help
+	 Opsi ini mengaktifkan pengubah mode otomatis di ATOS. Saat diaktifkan,
+	 ATOS akan menggunakan notifier API untuk berpindah dari mode yang sedang
+	 aktif kembali ke mode 0 (Mati) saat layar perangkat mati untuk menghemat daya.
+	 Jika ragu, pilih AUTO_ATOS_NONE.
+
+
+config AUTO_ATOS_MSM_DRM
+	bool "Auto ATOS using msm_drm_notifier"
+	depends on DRM_MSM
+	select AUTO_ATOS
+	help
+	 Pilih ini untuk mengaktifkan pengubah mode otomatis ATOS via msm_drm_notifier.
+	 ATOS akan otomatis beralih ke mode 0 (Mati) saat layar mati dan kembali ke
+	 mode sebelumnya (jika sebelumnya 1) saat layar menyala.
+
+
+config AUTO_ATOS_MI_DRM
+	bool "Auto ATOS using mi_drm_notifier"
+	depends on !DRM_MSM
+	select AUTO_ATOS
+	help
+	 Pilih ini untuk mengaktifkan pengubah mode otomatis ATOS via mi_drm_notifier.
+	 ATOS akan otomatis beralih ke mode 0 (Mati) saat layar mati dan kembali ke
+	 mode sebelumnya (jika sebelumnya 1) saat layar menyala.
+
+
+config AUTO_ATOS_FB
+	bool "Auto ATOS using fb_notifier"
+	depends on FB
+	select AUTO_ATOS
+	help
+	 Pilih ini untuk mengaktifkan pengubah mode otomatis ATOS via fb_notifier.
+	 ATOS akan otomatis beralih ke mode 0 (Mati) saat layar mati dan kembali ke
+	 mode sebelumnya (jika sebelumnya 1) saat layar menyala.
+
+
+config AUTO_ATOS_NONE
+	bool "None"
+	help
+	 Pilih ini untuk mem-build ATOS tanpa fitur penggantian otomatis (Auto ATOS).
+	 ndchoice
+
+
+config ATOS_VERBOSE_DEBUG
+	bool "Verbose ATOS debugging"
+	default n
+	help
+	 Pilih Y di sini jika Anda sedang menguji ATOS atau mencoba melakukan
+	 debug dan mengidentifikasi masalah (memunculkan lebih banyak log di dmesg).
+endif # if ATOS

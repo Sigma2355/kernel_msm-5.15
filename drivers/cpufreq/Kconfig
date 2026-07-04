@@ -47,16 +47,16 @@ choice
 	default CPU_FREQ_DEFAULT_GOV_USERSPACE if ARM_SA1100_CPUFREQ || ARM_SA1110_CPUFREQ
 	default CPU_FREQ_DEFAULT_GOV_SCHEDUTIL if ARM64 || ARM
 	default CPU_FREQ_DEFAULT_GOV_SCHEDUTIL if X86_INTEL_PSTATE && SMP
-	default CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+	default CPU_FREQ_DEFAULT_GOV_SPREA
 	help
 	  This option sets which CPUFreq governor shall be loaded at
 	  startup. If in doubt, use the default setting.
 
-config CPU_FREQ_DEFAULT_GOV_PERFORMANCE
-	bool "performance"
-	select CPU_FREQ_GOV_PERFORMANCE
+config CPU_FREQ_DEFAULT_GOV_SPREA
+	bool "SPREA"
+	select CPU_FREQ_GOV_SPREA
 	help
-	  Use the CPUFreq governor 'performance' as default. This sets
+	  Use the CPUFreq governor 'SPREA' as default. This sets
 	  the frequency statically to the highest frequency supported by
 	  the CPU.
 
@@ -81,58 +81,58 @@ config CPU_FREQ_DEFAULT_GOV_ONDEMAND
 	bool "ondemand"
 	depends on !(X86_INTEL_PSTATE && SMP)
 	select CPU_FREQ_GOV_ONDEMAND
-	select CPU_FREQ_GOV_PERFORMANCE
+	select CPU_FREQ_GOV_SPREA
 	help
 	  Use the CPUFreq governor 'ondemand' as default. This allows
 	  you to get a full dynamic frequency capable system by simply
 	  loading your cpufreq low-level hardware driver.
 	  Be aware that not all cpufreq drivers support the ondemand
 	  governor. If unsure have a look at the help section of the
-	  driver. Fallback governor will be the performance governor.
+	  driver. Fallback governor will be the SPREA governor.
 
 config CPU_FREQ_DEFAULT_GOV_CONSERVATIVE
 	bool "conservative"
 	depends on !(X86_INTEL_PSTATE && SMP)
 	select CPU_FREQ_GOV_CONSERVATIVE
-	select CPU_FREQ_GOV_PERFORMANCE
+	select CPU_FREQ_GOV_SPREA
 	help
 	  Use the CPUFreq governor 'conservative' as default. This allows
 	  you to get a full dynamic frequency capable system by simply
 	  loading your cpufreq low-level hardware driver.
 	  Be aware that not all cpufreq drivers support the conservative
 	  governor. If unsure have a look at the help section of the
-	  driver. Fallback governor will be the performance governor.
+	  driver. Fallback governor will be the SPREA governor.
 
 config CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
 	bool "schedutil"
 	depends on SMP
 	select CPU_FREQ_GOV_SCHEDUTIL
-	select CPU_FREQ_GOV_PERFORMANCE
+	select CPU_FREQ_GOV_SPREA
 	help
 	  Use the 'schedutil' CPUFreq governor by default. If unsure,
 	  have a look at the help section of that governor. The fallback
-	  governor will be 'performance'.
+	  governor will be 'SPREA'.
 
 config CPU_FREQ_DEFAULT_GOV_SCHEDHORIZON
 	bool "schedhorizon"
 	depends on SMP
 	select CPU_FREQ_GOV_SCHEDHORIZON
-	select CPU_FREQ_GOV_PERFORMANCE
+	select CPU_FREQ_GOV_SPREA
 	help
 	  Use the 'schedhorizon' CPUFreq governor by default. If unsure,
 	  have a look at the help section of that governor. The fallback
-	  governor will be 'performance'.
+	  governor will be 'SPREA'.
 
 endchoice
 
-config CPU_FREQ_GOV_PERFORMANCE
-	tristate "'performance' governor"
+config CPU_FREQ_GOV_SPREA
+	tristate "'sprea' governor"
 	help
 	  This cpufreq governor sets the frequency statically to the
 	  highest available CPU frequency.
 
 	  To compile this driver as a module, choose M here: the
-	  module will be called cpufreq_performance.
+	  module will be called cpufreq_sprea.
 
 	  If in doubt, say Y.
 
@@ -303,7 +303,7 @@ config IA64_ACPI_CPUFREQ
 	depends on ACPI_PROCESSOR
 	help
 	This driver adds a CPUFreq driver which utilizes the ACPI
-	Processor Performance States.
+	Processor SPREA States.
 
 	If in doubt, say N.
 endif

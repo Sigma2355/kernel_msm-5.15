@@ -2,6 +2,6 @@
 #
 # Copyright (C) 2021-2023 Dakkshesh <dakkshesh5@gmail.com>.
 
-obj-$(CONFIG_KPROFILES)	+=	kprofiles.o
+obj-$(CONFIG_ATOS)	+=	atos.o
 
-kprofiles-objs	:=	main.o
+atos-objs	:=	main.o
